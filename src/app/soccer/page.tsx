@@ -1,43 +1,46 @@
-'use client';
+// components/VideoPlayer.tsx
+import { useEffect, useRef } from "react";
+import videojs, { VideoJsPlayerOptions, VideoJsPlayer } from "video.js";
+import "video.js/dist/video-js.css";
 
-import { useEffect } from 'react';
+interface VideoPlayerProps {
+  src: string; // The video source URL
+}
 
-const SoccerWidget: React.FC = () => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ src }) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const playerRef = useRef<VideoJsPlayer | null>(null);
+
   useEffect(() => {
-    // Dynamically load the Scorebat embed script
-    const script = document.createElement('script');
-    script.src = 'https://www.scorebat.com/embed/embed.js?v=arrv';
-    script.id = 'scorebat-jssdk';
-    document.body.appendChild(script);
+    if (videoRef.current) {
+      const options: VideoJsPlayerOptions = {
+        autoplay: true,
+        controls: true,
+        responsive: true,
+        fluid: true,
+        sources: [
+          {
+            src,
+            type: "application/x-mpegURL", // HLS format
+          },
+        ],
+      };
 
-    return () => {
-      // Cleanup script on component unmount
-      const existingScript = document.getElementById('scorebat-jssdk');
-      if (existingScript) {
-        existingScript.remove();
-      }
-    };
-  }, []);
+      playerRef.current = videojs(videoRef.current, options);
+
+      return () => {
+        if (playerRef.current) {
+          playerRef.current.dispose();
+        }
+      };
+    }
+  }, [src]);
 
   return (
-    <div style={{ maxWidth: '100%', overflow: 'hidden' }}>
-      <iframe
-        src="https://www.scorebat.com/embed/matchview/1542724/?token=MTg5NzMxXzE3MzM3NjkzMTJfNGZiNGJmNTI2NDc2ODViZmQyYmVjODljMmRlODFmODdiMWI3NGU3ZQ=="
-        frameBorder="0"
-        width="600"
-        height="760"
-        allowFullScreen
-        allow="autoplay; fullscreen"
-        style={{
-          width: '100%',
-          height: '760px',
-          overflow: 'hidden',
-          display: 'block',
-        }}
-        className="_scorebatEmbeddedPlayer_"
-      ></iframe>
+    <div data-vjs-player>
+      <video ref={videoRef} className="video-js vjs-default-skin" />
     </div>
   );
 };
 
-export default SoccerWidget;
+export default VideoPlayer;

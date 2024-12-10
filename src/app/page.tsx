@@ -1,16 +1,23 @@
-import Link from 'next/link';
+// app/page.tsx
+import Head from "next/head";
+import VideoPlayer from "./components/VideoPlayer"; // Correct relative path
 
-const Home: React.FC = () => {
+const Home = () => {
+  const videoSrc =
+    "https://obevcimanyd179569584.akainu.xyz/lSV1SsnhcJjO5bLHfJmexA/Fv2lucGIbhPi2caWYvF5Lg/1733881323291/live/hawHD/playlist.m3u8";
+
   return (
-    <main style={{ padding: '20px', textAlign: 'center' }}>
-      <h1>Welcome to the Soccer Widget</h1>
-      <p>Click below to view the live soccer widget:</p>
-      <Link href="/soccer" style={{ color: '#0070f3', textDecoration: 'underline' }}>
-  Go to Soccer Widget
-</Link>
-<h1>hello world</h1>
-      <p>this is elon musk</p>
-    </main>
+    <>
+      <Head>
+        <title>Livestream App</title>
+        <meta name="description" content="A simple livestream app built with Next.js" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main style={{ textAlign: "center", marginTop: "2rem" }}>
+        <h1>Livestream Video</h1>
+        <VideoPlayer src={videoSrc} />
+      </main>
+    </>
   );
 };
 
