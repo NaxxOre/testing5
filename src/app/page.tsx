@@ -9,6 +9,7 @@ const Home: React.FC = () => {
   Go to Soccer Widget
 </Link>
 <h1>hello world</h1>
+      <p>this is elon musk</p>
     </main>
   );
 };
