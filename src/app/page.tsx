@@ -8,7 +8,7 @@ const Home: React.FC = () => {
       <Link href="/soccer" style={{ color: '#0070f3', textDecoration: 'underline' }}>
   Go to Soccer Widget
 </Link>
-
+<h1>hello world</h1>
     </main>
   );
 };
